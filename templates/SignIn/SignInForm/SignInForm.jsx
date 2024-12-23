@@ -126,10 +126,10 @@ const SignInForm = (props) => {
       // If user doesn't exist, create them
       if (!userData) {
         await signUpWithGoogle(userCred.user);
-        // Fetch the newly created user data
-        userData = await dispatch(
-          fetchUserData({ firestore, id: userCred.user.uid })
-        ).unwrap();
+        handleOpenSnackBar(
+          ALERT_COLORS.SUCCESS,
+          'Account created successfully with Google'
+        );
       }
       router.replace(ROUTES.HOME); //if onboarding is required, useRedirect.jsx will redirect to onboarding
     } catch (code) {
