@@ -5,7 +5,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { FormContainer } from 'react-hook-form-mui';
 import { useDispatch } from 'react-redux';
 
-import { signInWithPopup } from 'firebase/auth';
+import { signInWithPopup, signOut } from 'firebase/auth';
 import { useRouter } from 'next/router';
 
 import AuthTextField from '@/components/AuthTextField';
@@ -186,7 +186,11 @@ const SignUpForm = (props) => {
 
       router.replace(ROUTES.HOME); //if onboarding is required, useRedirect.jsx will redirect to onboarding
     } catch (err) {
-      handleOpenSnackBar(ALERT_COLORS.ERROR, err.message);
+      await signOut(auth); //in case error occurs after successful sign in with Popup, user must be signed out
+      handleOpenSnackBar(
+        ALERT_COLORS.ERROR,
+        AUTH_ERROR_MESSAGES[code] || 'Unable to sign up with Google'
+      );
     } finally {
       setLoading(false);
     }

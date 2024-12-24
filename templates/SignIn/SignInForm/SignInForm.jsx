@@ -133,6 +133,7 @@ const SignInForm = (props) => {
       }
       router.replace(ROUTES.HOME); //if onboarding is required, useRedirect.jsx will redirect to onboarding
     } catch (code) {
+      await signOut(auth);
       handleOpenSnackBar(
         ALERT_COLORS.ERROR,
         AUTH_ERROR_MESSAGES[code] || 'Unable to sign in with Google'
